@@ -5,6 +5,9 @@ class Persona:
         self.dpi = 0
         self.direccion = ""
         self.fecha_nac = ""
+        self.Encriptado = []
+        self.Desencriptado = []
+        self.Companies = []
 
     def get_nombre(self):
         return self.nombre
@@ -29,3 +32,23 @@ class Persona:
 
     def set_fecha(self, fecha_nac):
         self.fecha_nac = fecha_nac
+
+    def get_enc(self):
+        return self.Encriptado
+
+    def set_enc(self, Encriptado):
+        self.Encriptado = Encriptado
+
+    def get_des(self):
+        return self.Desencriptado
+
+    def set_des(self, Desencriptado):
+        self.Desencriptado = Desencriptado
+
+    def get_compa(self):
+        return self.Companies
+
+    def set_compa(self, Companies):
+        self.Companies = Companies
+
+

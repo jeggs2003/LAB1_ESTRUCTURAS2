@@ -1,5 +1,5 @@
 from Model import Persona
-
+import json;
 class NodoB:
     def __init__(self, t):
         self.n = 0  # número de claves almacenadas en el nodo
@@ -8,11 +8,15 @@ class NodoB:
         self.child = [None] * (2 * t)  # arreglo con referencias a los hijos
 
     def imprimir(self):
-        print("", end="")
+        data = []
         for i in range(self.n):
-            if i < self.n - 1:
-                print('{"name":','"', self.key[i].get_nombre(),'",','"','dpi":', '"',self.key[i].get_dpi(),'",','"','dateBirth":', '"',self.key[i].get_fecha(),'",','"','address":', '"',self.key[i].get_direccion(),'"}')
-            else:
-                print('{"name":', '"', self.key[i].get_nombre(), '",', '"', 'dpi":', '"', self.key[i].get_dpi(), '",','"', 'dateBirth":', '"', self.key[i].get_fecha(), '",', '"', 'address":', '"',self.key[i].get_direccion(), '"}')
-        print("")
+            item = {
+                "name": self.key[i].get_nombre(),
+                "dateBirth": self.key[i].get_fecha(),
+                "address": self.key[i].get_direccion(),
+                "Encriptados": self.key[i].get_enc()
+            }
+            data.append(item)
 
+        json_data = json.dumps(data, indent=5)
+        print(json_data)

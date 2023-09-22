@@ -1,4 +1,8 @@
+import json
+from Controller.concatenacion import concatenacion
+from Controller.HuffmanTree import HuffmanTree
 from Model.NodoB import NodoB
+
 from Model.Persona import Persona
 
 class ArbolB:
@@ -180,12 +184,30 @@ class ArbolB:
 
         for i in range(nodo.n):
             if nodo.key[i].get_nombre() == nombre:
+                compa = nodo.key[i].get_compa()
+                encrip = nodo.key[i].get_enc()
+                desencriptados =[]
+                huf_trees = [HuffmanTree(compa[i]) for i in range(len(compa))]
+                for j in range(len(compa)):
+                    decoded_text = huf_trees[j].binary_to_text_huffman(encrip[j])
+                    desencriptados.append(decoded_text)
+
                 print("---------------------------------------------------------")
-                print('{"name":', '"', nodo.key[i].get_nombre(), '",', '"', 'dpi":', '"', nodo.key[i].get_dpi(), '",',
-                      '"', 'dateBirth":', '"', nodo.key[i].get_fecha(), '",', '"', 'address":', '"',
-                      nodo.key[i].get_direccion(), '"}')
+                nodo.key[i].set_des(desencriptados)
+                data = []
 
+                item = {
+                    "name": nodo.key[i].get_nombre(),
+                    "dpi": nodo.key[i].get_dpi(),
+                    "dateBirth": nodo.key[i].get_fecha(),
+                    "address": nodo.key[i].get_direccion(),
+                    "Desencriptados": nodo.key[i].get_des()
+                }
+                data.append(item)
 
+                json_data = json.dumps(data, indent=5)
+                print(json_data)
+                print("---------------------------------------------------------")
         if not nodo.leaf:
             # Si no es una hoja, busca en los hijos recursivamente
             for i in range(nodo.n + 1):
@@ -205,10 +227,30 @@ class ArbolB:
 
         for i in range(nodo.n):
             if nodo.key[i].get_dpi() == dpi:
+                compa = nodo.key[i].get_compa()
+                encrip = nodo.key[i].get_enc()
+                desencriptados = []
+                huf_trees = [HuffmanTree(compa[i]) for i in range(len(compa))]
+                for j in range(len(compa)):
+                    decoded_text = huf_trees[j].binary_to_text_huffman(encrip[j])
+                    desencriptados.append(decoded_text)
+
                 print("---------------------------------------------------------")
-                print('{"name":', '"', nodo.key[i].get_nombre(), '",', '"', 'dpi":', '"', nodo.key[i].get_dpi(), '",',
-                      '"', 'dateBirth":', '"', nodo.key[i].get_fecha(), '",', '"', 'address":', '"',
-                      nodo.key[i].get_direccion(), '"}')
+                nodo.key[i].set_des(desencriptados)
+                data = []
+
+                item = {
+                    "name": nodo.key[i].get_nombre(),
+                    "dpi": nodo.key[i].get_dpi(),
+                    "dateBirth": nodo.key[i].get_fecha(),
+                    "address": nodo.key[i].get_direccion(),
+                    "Desencriptados": nodo.key[i].get_des()
+                }
+                data.append(item)
+
+                json_data = json.dumps(data, indent=5)
+                print(json_data)
+                print("---------------------------------------------------------")
 
         if not nodo.leaf:
             # Si no es una hoja, busca en los hijos recursivamente
