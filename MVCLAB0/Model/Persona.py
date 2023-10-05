@@ -8,6 +8,13 @@ class Persona:
         self.Encriptado = []
         self.Desencriptado = []
         self.Companies = []
+        self.Cartas = []
+
+    def get_cartas(self):
+        return self.Cartas
+
+    def set_cartas(self, Cartas):
+        self.Cartas = Cartas
 
     def get_nombre(self):
         return self.nombre
@@ -50,5 +57,7 @@ class Persona:
 
     def set_compa(self, Companies):
         self.Companies = Companies
+
+
 
 

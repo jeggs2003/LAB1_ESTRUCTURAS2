@@ -3,14 +3,14 @@ from collections import defaultdict
 from Controller.HuffmanNode import HuffmanNode
 
 class HuffmanTree:
-    def __init__(self, text):
-        self.root = self.build_huffman_tree(text)
+    def __init__(self, texto):
+        self.root = self.ConstruccionHuffman(texto)
         self.codes = {}
-        self.generate_huffman_codes(self.root, "", self.codes)
+        self.CodigosHuffman(self.root, "", self.codes)
 
-    def build_huffman_tree(self, text):
+    def ConstruccionHuffman(self, texto):
         char_freq = defaultdict(int)
-        for char in text:
+        for char in texto:
             char_freq[char] += 1
 
         nodes = [HuffmanNode(char, freq) for char, freq in char_freq.items()]
@@ -26,7 +26,7 @@ class HuffmanTree:
 
         return nodes[0]
 
-    def generate_huffman_codes(self, node, current_code, codes):
+    def CodigosHuffman(self, node, current_code, codes):
         if node is None:
             return
 
@@ -34,26 +34,26 @@ class HuffmanTree:
             codes[node.char] = current_code
             return
 
-        self.generate_huffman_codes(node.left, current_code + '0', codes)
-        self.generate_huffman_codes(node.right, current_code + '1', codes)
+        self.CodigosHuffman(node.left, current_code + '0', codes)
+        self.CodigosHuffman(node.right, current_code + '1', codes)
 
-    def text_to_binary_huffman(self, text):
-        binary_text = ""
-        for char in text:
-            binary_text += self.codes[char]
-        return binary_text
+    def Texto_Binario(self, texto):
+        codigo_bin = ""
+        for char in texto:
+            codigo_bin += self.codes[char]
+        return codigo_bin
 
-    def binary_to_text_huffman(self, binary_text):
-        text = ""
+    def Binario_Texto(self, codigo_bin):
+        texto = ""
         current_node = self.root
-        for bit in binary_text:
+        for bit in codigo_bin:
             if bit == '0':
                 current_node = current_node.left
             else:
                 current_node = current_node.right
 
             if current_node.char is not None:
-                text += current_node.char
+                texto += current_node.char
                 current_node = self.root
 
-        return text
+        return texto

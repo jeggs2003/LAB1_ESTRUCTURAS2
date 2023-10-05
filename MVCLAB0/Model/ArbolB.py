@@ -2,7 +2,8 @@ import json
 from Controller.concatenacion import concatenacion
 from Controller.HuffmanTree import HuffmanTree
 from Model.NodoB import NodoB
-
+import os
+from Controller.DescifrarTrans import DescifrarTrans
 from Model.Persona import Persona
 
 class ArbolB:
@@ -189,7 +190,7 @@ class ArbolB:
                 desencriptados =[]
                 huf_trees = [HuffmanTree(compa[i]) for i in range(len(compa))]
                 for j in range(len(compa)):
-                    decoded_text = huf_trees[j].binary_to_text_huffman(encrip[j])
+                    decoded_text = huf_trees[j].Binario_Texto(encrip[j])
                     desencriptados.append(decoded_text)
 
                 print("---------------------------------------------------------")
@@ -201,7 +202,8 @@ class ArbolB:
                     "dpi": nodo.key[i].get_dpi(),
                     "dateBirth": nodo.key[i].get_fecha(),
                     "address": nodo.key[i].get_direccion(),
-                    "Desencriptados": nodo.key[i].get_des()
+                    "Desencriptados": nodo.key[i].get_des(),
+                    "Directorios Cartas" : nodo.key[i].get_cartas()
                 }
                 data.append(item)
 
@@ -231,9 +233,26 @@ class ArbolB:
                 encrip = nodo.key[i].get_enc()
                 desencriptados = []
                 huf_trees = [HuffmanTree(compa[i]) for i in range(len(compa))]
+                Desenc = DescifrarTrans();
+                Desifrados = [];
+
+
                 for j in range(len(compa)):
-                    decoded_text = huf_trees[j].binary_to_text_huffman(encrip[j])
+                    decoded_text = huf_trees[j].Binario_Texto(encrip[j])
                     desencriptados.append(decoded_text)
+
+                carpeta_origen = r"C:\Users\javie\PycharmProjects\MVCLAB0\venv\View\carpeta_destino"  # Ruta completa de la carpeta de origen
+                for nombre_archivo in nodo.key[i].get_cartas():
+                    # Construir la ruta completa al archivo de origen
+                    ruta_origen = os.path.join(carpeta_origen, nombre_archivo)
+
+                    # Leer el contenido del archivo de origen
+                    with open(ruta_origen, "r") as archivo_origen:
+                        contenido = archivo_origen.read()
+                        descifrado = ""
+                        descifrado = Desenc.descifrar_transposicion_columnas(contenido, "JAVIERGODINEZKEY")
+                        Desifrados.append(nombre_archivo+": "+descifrado)
+
 
                 print("---------------------------------------------------------")
                 nodo.key[i].set_des(desencriptados)
@@ -244,7 +263,9 @@ class ArbolB:
                     "dpi": nodo.key[i].get_dpi(),
                     "dateBirth": nodo.key[i].get_fecha(),
                     "address": nodo.key[i].get_direccion(),
-                    "Desencriptados": nodo.key[i].get_des()
+                    "Desencriptados": nodo.key[i].get_des(),
+                    "Directorios Cartas": nodo.key[i].get_cartas(),
+                    "Cartas Decifradas": Desifrados
                 }
                 data.append(item)
 
@@ -260,6 +281,42 @@ class ArbolB:
                     return resultado
 
         return -1
+
+
+
+
+    def actualizarData(self, nombre, dpi, adress ,fecha, Companies, enc, des):
+
+        return self._actualizar_en_nodo_data(self.root, nombre, dpi, fecha, adress,Companies,enc,des)
+
+    def _actualizar_en_nodo_data(self, nodo, nombre, dpi, fecha, adress, compa, enc, des):
+        if nodo is None:
+            return -1  # Si el nodo es None, el valor no se encontró
+
+        for i in range(nodo.n):
+            if nodo.key[i].get_nombre() == nombre:
+                if nodo.key[i].get_dpi() == dpi:
+                    nodo.key[i].set_fecha(fecha)
+                    nodo.key[i].set_direccion(adress)
+                    nodo.key[i].set_enc(enc)
+                    nodo.key[i].set_des(des)
+                    nodo.key[i].set_compa(compa)
+                    print(" REGISTRO CON NOMBRE: ", nombre, " // DPI: ", dpi, " ACTUALIZADO CORRECTAMENTE")
+
+        if not nodo.leaf:
+            # Si no es una hoja, busca en los hijos recursivamente
+            for i in range(nodo.n + 1):
+                resultado = self._actualizar_en_nodo_data(nodo.child[i], nombre, dpi, fecha,adress, compa, enc, des)
+                if resultado != -1:
+                    return resultado
+
+        return -1
+
+
+
+
+
+
 
 
 

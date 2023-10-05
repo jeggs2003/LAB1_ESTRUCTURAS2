@@ -1,5 +1,3 @@
-import heapq
-from collections import defaultdict
 
 class HuffmanNode:
     def __init__(self, char, freq):
