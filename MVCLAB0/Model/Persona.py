@@ -9,6 +9,21 @@ class Persona:
         self.Desencriptado = []
         self.Companies = []
         self.Cartas = []
+        self.Conversaciones = []
+        self.Firmas = []
+
+    def get_firma(self):
+        return self.Firmas
+
+    def set_firma(self, Firmas):
+        self.Firmas = Firmas
+
+    def get_conv(self):
+        return self.conversaciones
+
+    def set_conv(self, conversaciones):
+        self.conversaciones = conversaciones
+
 
     def get_cartas(self):
         return self.Cartas

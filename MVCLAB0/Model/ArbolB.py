@@ -5,6 +5,7 @@ from Model.NodoB import NodoB
 import os
 from Controller.DescifrarTrans import DescifrarTrans
 from Model.Persona import Persona
+from Controller.FirmadorRSA import FirmadorRSA
 
 class ArbolB:
     def __init__(self, t):
@@ -235,8 +236,8 @@ class ArbolB:
                 huf_trees = [HuffmanTree(compa[i]) for i in range(len(compa))]
                 Desenc = DescifrarTrans();
                 Desifrados = [];
-
-
+                descomprimido = ""
+                conversacion_Original = ""
                 for j in range(len(compa)):
                     decoded_text = huf_trees[j].Binario_Texto(encrip[j])
                     desencriptados.append(decoded_text)
@@ -253,6 +254,42 @@ class ArbolB:
                         descifrado = Desenc.descifrar_transposicion_columnas(contenido, "JAVIERGODINEZKEY")
                         Desifrados.append(nombre_archivo+": "+descifrado)
 
+                carpeta_origen_Firmas_Sinh = r"C:\Users\javie\PycharmProjects\MVCLAB0\venv\View\carpeta_destino_firmas_sinhuffman"
+                carpeta_origen_Firmas = r"C:\Users\javie\PycharmProjects\MVCLAB0\venv\View\carpeta_destino_Firmas"# Rut
+                carpeta_origen_Firmas_originales = r"C:\Users\javie\PycharmProjects\MVCLAB0\venv\View\Conversaciones"  # Rut
+
+                for firmas_comprimidas in nodo.key[i].get_conv():
+                    # Construir la ruta completa al archivo de origen
+                    ruta_origen = os.path.join(carpeta_origen_Firmas_Sinh, firmas_comprimidas)
+                    huf_tree = ""
+                    # Leer el contenido del archivo de origen
+                    with open(ruta_origen, "r") as archivo_origen:
+                        contenido = archivo_origen.read()
+                        huf_tree = HuffmanTree(contenido)
+
+                    ruta_origen = os.path.join(carpeta_origen_Firmas, firmas_comprimidas)
+                    # Leer el contenido del archivo de origen
+                    with open(ruta_origen, "r") as archivo_origen:
+                        contenido = archivo_origen.read()
+                        # Codificar el texto usando la instancia del árbol Huffman
+                        encriptado_output = huf_tree.Binario_Texto(contenido)
+
+                        descomprimido = Desenc.descifrar_transposicion_columnas(encriptado_output, "JAVIERGODINEZKEY")
+
+
+                    # Construir la ruta completa al archivo de origen
+                    ruta_origen = os.path.join(carpeta_origen_Firmas_originales, firmas_comprimidas)
+                    # Leer el contenido del archivo de origen
+                    with open(ruta_origen, "r") as archivo_origen:
+                        conversacion_Original = archivo_origen.read()
+
+                    FIRMA = FirmadorRSA();
+                    res = FIRMA.validar(conversacion_Original,descomprimido)
+
+                    if res:
+                        print(f"La firma del archivo  es válida.")
+                    else:
+                        print(f"La firma del archivo  es inválida.")
 
                 print("---------------------------------------------------------")
                 nodo.key[i].set_des(desencriptados)
