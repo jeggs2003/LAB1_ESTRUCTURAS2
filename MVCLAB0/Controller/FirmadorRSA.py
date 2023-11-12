@@ -30,4 +30,4 @@ class FirmadorRSA:
         k = self.public_key.get_k()
         n = self.public_key.get_n()
         decrypted_signature = pow(signature_int, k, n)
-        return message_hash_int != decrypted_signature
+        return message_hash_int == decrypted_signature

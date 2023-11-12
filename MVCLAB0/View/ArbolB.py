@@ -256,7 +256,7 @@ class ArbolB:
 
                 carpeta_origen_Firmas_Sinh = r"C:\Users\javie\PycharmProjects\MVCLAB0\venv\View\carpeta_destino_firmas_sinhuffman"
                 carpeta_origen_Firmas = r"C:\Users\javie\PycharmProjects\MVCLAB0\venv\View\carpeta_destino_Firmas"# Rut
-                carpeta_origen_Firmas_originales = r"C:\Users\javie\PycharmProjects\MVCLAB0\venv\View\Conversaciones"  # Rut
+                carpeta_origen_Conversaciones_Descomprimidas = r"C:\Users\javie\PycharmProjects\MVCLAB0\venv\View\Conversaciones"  # Rut
 
                 for firmas_comprimidas in nodo.key[i].get_conv():
                     # Construir la ruta completa al archivo de origen
@@ -278,18 +278,18 @@ class ArbolB:
 
 
                     # Construir la ruta completa al archivo de origen
-                    ruta_origen = os.path.join(carpeta_origen_Firmas_originales, firmas_comprimidas)
+                    ruta_origen = os.path.join(carpeta_origen_Conversaciones_Descomprimidas, firmas_comprimidas)
                     # Leer el contenido del archivo de origen
                     with open(ruta_origen, "r") as archivo_origen:
-                        conversacion_Original = archivo_origen.read()
+                        archivoDescrifado = archivo_origen.read()
 
                     FIRMA = FirmadorRSA();
-                    res = FIRMA.validar(conversacion_Original,descomprimido)
+                    res = FIRMA.validar(archivoDescrifado,descomprimido)
 
                     if res:
-                        print(f"La firma del archivo es inválida.")
+                        print(f"La firma del archivo válida.")
                     else:
-                        print(f"La firma del archivo es válida.")
+                        print(f"La firma del archivo es inválida.")
 
                 print("---------------------------------------------------------")
                 nodo.key[i].set_des(desencriptados)
@@ -348,9 +348,6 @@ class ArbolB:
                     return resultado
 
         return -1
-
-
-
 
 
 

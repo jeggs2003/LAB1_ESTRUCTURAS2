@@ -11,6 +11,14 @@ class Persona:
         self.Cartas = []
         self.Conversaciones = []
         self.Firmas = []
+        self.Reclutador = ""
+
+    def get_reclutador(self):
+        return self.Reclutador
+
+    def set_reclutador(self, Reclutador):
+        self.Reclutador = Reclutador
+
 
     def get_firma(self):
         return self.Firmas
